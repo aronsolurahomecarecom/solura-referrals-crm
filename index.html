@@ -74,21 +74,19 @@
         leads.forEach(lead => {
             const row = document.createElement('tr');
             row.className = 'hover:bg-slate-50 transition-colors cursor-pointer';
-            row.innerHTML = `
-                <td class="px-6 py-4">
-                    <div class="text-sm font-semibold text-slate-900">${lead.zip}</div>
-                    <div class="text-xs text-slate-500">${lead.city}</div>
-                </td>
-                <td class="px-6 py-4 text-sm text-slate-600">${lead.county}</td>
-                <td class="px-6 py-4 text-sm text-slate-600 font-medium">${lead.income}</td>
-                <td class="px-6 py-4 text-sm text-slate-600">${lead.alone}</td>
-                <td class="px-6 py-4">
-                    <span class="status-badge status-new">${lead.status}</span>
-                </td>
-                <td class="px-6 py-4">
-                    <button class="text-indigo-600 hover:text-indigo-900 text-sm font-semibold">View Details</button>
-                </td>
-            `;
+            row.innerHTML = '<td class="px-6 py-4">' +
+                '<div class="text-sm font-semibold text-slate-900">' + lead.zip + '</div>' +
+                '<div class="text-xs text-slate-500">' + lead.city + '</div>' +
+                '</td>' +
+                '<td class="px-6 py-4 text-sm text-slate-600">' + lead.county + '</td>' +
+                '<td class="px-6 py-4 text-sm text-slate-600 font-medium">' + lead.income + '</td>' +
+                '<td class="px-6 py-4 text-sm text-slate-600">' + lead.alone + '</td>' +
+                '<td class="px-6 py-4">' +
+                '<span class="status-badge status-new">' + lead.status + '</span>' +
+                '</td>' +
+                '<td class="px-6 py-4">' +
+                '<button class="text-indigo-600 hover:text-indigo-900 text-sm font-semibold" onclick="alert('Viewing details for Lead ID: ' + lead.id + ' in ' + lead.city + ', ' + lead.county + '')">View Details</button>' +
+                '</td>';
             tableBody.appendChild(row);
         });
     </script>
