@@ -10,8 +10,6 @@
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .status-badge { padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
         .status-new { background-color: #dbeafe; color: #1e40af; }
-        .status-contacted { background-color: #fef9c3; color: #854d0e; }
-        .status-qualified { background-color: #dcfce7; color: #166534; }
     </style>
 </head>
 <body class="p-6 md:p-12">
@@ -40,10 +38,18 @@
                         </tr>
                     </thead>
                     <tbody id="leads-table" class="divide-y divide-slate-100">
-                        <!-- Leads will be injected here -->
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="lead-modal" class="fixed inset-0 bg-slate-900/50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-lg w-full m-4 shadow-xl">
+            <h2 id="modal-title" class="text-xl font-bold mb-4">Lead Details</h2>
+            <div id="modal-content" class="space-y-3 text-sm text-slate-600"></div>
+            <button onclick="closeModal()" class="mt-6 w-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-semibold py-2 px-4 rounded-lg">Close</button>
         </div>
     </div>
 
@@ -71,9 +77,13 @@
         ];
 
         const tableBody = document.getElementById('leads-table');
+        const modal = document.getElementById('lead-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContent = document.getElementById('modal-content');
+
         leads.forEach(lead => {
             const row = document.createElement('tr');
-            row.className = 'hover:bg-slate-50 transition-colors cursor-pointer';
+            row.className = 'hover:bg-slate-50 transition-colors';
             row.innerHTML = `
                 <td class="px-6 py-4">
                     <div class="text-sm font-semibold text-slate-900">${lead.zip}</div>
@@ -86,11 +96,30 @@
                     <span class="status-badge status-new">${lead.status}</span>
                 </td>
                 <td class="px-6 py-4">
-                    <button class="text-indigo-600 hover:text-indigo-900 text-sm font-semibold">View Details</button>
+                    <button onclick="showDetails('${lead.id}')" class="text-indigo-600 hover:text-indigo-900 text-sm font-semibold">View Details</button>
                 </td>
             `;
             tableBody.appendChild(row);
         });
+
+        function showDetails(id) {
+            const lead = leads.find(l => l.id === id);
+            modalTitle.innerText = `Lead ${lead.id} - ${lead.city}`;
+            modalContent.innerHTML = `
+                <p><strong>ZIP:</strong> ${lead.zip}</p>
+                <p><strong>County:</strong> ${lead.county}</p>
+                <p><strong>65+ Income:</strong> ${lead.income}</p>
+                <p><strong>Seniors Alone:</strong> ${lead.alone}</p>
+                <p><strong>Status:</strong> ${lead.status}</p>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
     </script>
 </body>
 </html>
