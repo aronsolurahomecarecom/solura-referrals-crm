@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solura Referral CRM - Ohio Leads</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .status-badge { padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+        .status-new { background-color: #dbeafe; color: #1e40af; }
+        .status-contacted { background-color: #fef9c3; color: #854d0e; }
+        .status-qualified { background-color: #dcfce7; color: #166534; }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-10 flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-900">Solura Referral CRM</h1>
+                <p class="text-slate-500 mt-1">Ohio Senior Care Leads & Opportunity Snapshot</p>
+            </div>
+            <div class="text-right">
+                <span class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium">19 Active Leads</span>
+            </div>
+        </header>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200">
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">ZIP / City</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">County</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">65+ Income</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Seniors Alone</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leads-table" class="divide-y divide-slate-100">
+                        <!-- Leads will be injected here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const leads = [
+            { id: "OH-001", zip: "44040", city: "Gates Mills", county: "Cuyahoga", income: "$151,375", alone: "18%", status: "New" },
+            { id: "OH-002", zip: "44023", city: "Chagrin Falls", county: "Geauga", income: "$101,397", alone: "20%", status: "New" },
+            { id: "OH-003", zip: "44022", city: "Chagrin Falls", county: "Cuyahoga", income: "$103,500", alone: "19%", status: "New" },
+            { id: "OH-004", zip: "44139", city: "Solon", county: "Cuyahoga", income: "$92,270", alone: "21%", status: "New" },
+            { id: "OH-005", zip: "44233", city: "Hinckley", county: "Medina", income: "$90,000", alone: "22%", status: "New" },
+            { id: "OH-006", zip: "44011", city: "Avon", county: "Lorain", income: "$63,289", alone: "27%", status: "New" },
+            { id: "OH-007", zip: "44141", city: "Brecksville", county: "Cuyahoga", income: "$90,446", alone: "20%", status: "New" },
+            { id: "OH-008", zip: "44140", city: "Bay Village", county: "Cuyahoga", income: "$74,590", alone: "24%", status: "New" },
+            { id: "OH-009", zip: "44280", city: "Valley City", county: "Medina", income: "$88,000", alone: "22%", status: "New" },
+            { id: "OH-010", zip: "44149", city: "Strongsville", county: "Cuyahoga", income: "$77,915", alone: "23%", status: "New" },
+            { id: "OH-011", zip: "44012", city: "Avon Lake", county: "Lorain", income: "$67,776", alone: "26%", status: "New" },
+            { id: "OH-012", zip: "44286", city: "Richfield", county: "Summit", income: "$85,000", alone: "23%", status: "New" },
+            { id: "OH-013", zip: "44145", city: "Westlake", county: "Cuyahoga", income: "$75,936", alone: "24%", status: "New" },
+            { id: "OH-014", zip: "44026", city: "Chesterland", county: "Geauga", income: "$82,000", alone: "22%", status: "New" },
+            { id: "OH-015", zip: "44072", city: "Novelty", county: "Geauga", income: "Suppressed", alone: "28%", status: "New" },
+            { id: "OH-016", zip: "44024", city: "Chardon", county: "Geauga", income: "$59,643", alone: "29%", status: "New" },
+            { id: "OH-017", zip: "44147", city: "Broadview Heights", county: "Cuyahoga", income: "$71,799", alone: "25%", status: "New" },
+            { id: "OH-018", zip: "44131", city: "Independence", county: "Cuyahoga", income: "$73,904", alone: "27%", status: "New" },
+            { id: "OH-019", zip: "44256", city: "Medina", county: "Medina", income: "$64,299", alone: "26%", status: "New" }
+        ];
+
+        const tableBody = document.getElementById('leads-table');
+        leads.forEach(lead => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-slate-50 transition-colors cursor-pointer';
+            row.innerHTML = `
+                <td class="px-6 py-4">
+                    <div class="text-sm font-semibold text-slate-900">${lead.zip}</div>
+                    <div class="text-xs text-slate-500">${lead.city}</div>
+                </td>
+                <td class="px-6 py-4 text-sm text-slate-600">${lead.county}</td>
+                <td class="px-6 py-4 text-sm text-slate-600 font-medium">${lead.income}</td>
+                <td class="px-6 py-4 text-sm text-slate-600">${lead.alone}</td>
+                <td class="px-6 py-4">
+                    <span class="status-badge status-new">${lead.status}</span>
+                </td>
+                <td class="px-6 py-4">
+                    <button class="text-indigo-600 hover:text-indigo-900 text-sm font-semibold">View Details</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    </script>
+</body>
+</html>
